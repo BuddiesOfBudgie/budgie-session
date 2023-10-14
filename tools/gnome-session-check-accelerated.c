@@ -130,8 +130,8 @@ main (int argc, char **argv)
 {
         GdkDisplay *display = NULL;
         int estatus;
-        char *gl_helper_argv[] = { LIBEXECDIR "/gnome-session-check-accelerated-gl-helper", "--print-renderer", NULL };
-        char *gles_helper_argv[] = { LIBEXECDIR "/gnome-session-check-accelerated-gles-helper", "--print-renderer", NULL };
+        char *gl_helper_argv[] = { LIBEXECDIR "/budgie-session-check-accelerated-gl-helper", "--print-renderer", NULL };
+        char *gles_helper_argv[] = { LIBEXECDIR "/budgie-session-check-accelerated-gles-helper", "--print-renderer", NULL };
         const char *renderer_string = NULL;
         char *gl_renderer_string = NULL, *gles_renderer_string = NULL;
         gboolean gl_software_rendering = FALSE, gles_software_rendering = FALSE;
@@ -154,7 +154,7 @@ main (int argc, char **argv)
                         return 0;
                 }
                 if (gtk_gles_error != NULL) {
-                        g_printerr ("gnome-session-check-accelerated: "
+                        g_printerr ("budgie-session-check-accelerated: "
                                     "Failed to get GTK GLES renderer: %s\n",
                                     gtk_gles_error->message);
                         g_clear_error (&gtk_gles_error);
@@ -167,7 +167,7 @@ main (int argc, char **argv)
          * so looking for X11 atoms will not work (and crash).
          */
         if (!GDK_IS_X11_DISPLAY (display)) {
-                g_printerr ("gnome-session-check-accelerated: no X11 display found\n");
+                g_printerr ("budgie-session-check-accelerated: no X11 display found\n");
                 return 1;
         }
 
@@ -244,7 +244,7 @@ main (int argc, char **argv)
                         goto finish;
                 }
 
-                g_printerr ("gnome-session-check-accelerated: GL Helper exited with code %d\n", estatus);
+                g_printerr ("budgie-session-check-accelerated: GL Helper exited with code %d\n", estatus);
         }
 
         /* Then, try the GLES helper */
@@ -257,7 +257,7 @@ main (int argc, char **argv)
                         goto finish;
                 }
 
-                g_printerr ("gnome-session-check-accelerated: GLES Helper exited with code %d\n", estatus);
+                g_printerr ("budgie-session-check-accelerated: GLES Helper exited with code %d\n", estatus);
         }
 
         /* If we got here, GL software rendering is our best bet */
@@ -275,12 +275,12 @@ main (int argc, char **argv)
 
         /* Both helpers failed; print their error messages */
         if (gl_error != NULL) {
-                g_printerr ("gnome-session-check-accelerated: Failed to run GL helper: %s\n", gl_error->message);
+                g_printerr ("budgie-session-check-accelerated: Failed to run GL helper: %s\n", gl_error->message);
                 g_clear_error (&gl_error);
         }
 
         if (gles_error != NULL) {
-                g_printerr ("gnome-session-check-accelerated: Failed to run GLES helper: %s\n", gles_error->message);
+                g_printerr ("budgie-session-check-accelerated: Failed to run GLES helper: %s\n", gles_error->message);
                 g_clear_error (&gles_error);
         }
 

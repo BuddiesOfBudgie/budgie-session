@@ -1,7 +1,7 @@
 script_conf = configuration_data()
 script_conf.set('libexecdir', session_libexecdir)
 
-script = 'gnome-session'
+script = 'budgie-session'
 
 configure_file(
   input: script + '.in',

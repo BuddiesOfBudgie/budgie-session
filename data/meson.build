@@ -1,9 +1,6 @@
 desktop_plain = 'gnome'
 
 desktops = [
-  desktop_plain,
-  'gnome-xorg',
-  'gnome-wayland',
 ]
 
 shell_component = {
@@ -74,8 +71,6 @@ foreach name: desktops
 endforeach
 
 sessions = [
-  'gnome',
-  'gnome-dummy'
 ]
 
 foreach session: sessions
@@ -105,7 +100,7 @@ endforeach
 
 schema_conf = configuration_data()
 
-schema = 'org.gnome.SessionManager.gschema.xml'
+schema = 'org.buddiesofbudgie.SessionManager.gschema.xml'
 
 configure_file(
   input: schema + '.in',
@@ -115,12 +110,7 @@ configure_file(
   configuration: schema_conf
 )
 
-install_data(
-  'gnome-session.convert',
-  install_dir: join_paths(session_datadir, 'GConf', 'gsettings')
-)
-
-if enable_systemd_session
+if 1==2
   unit_conf = configuration_data()
   unit_conf.set('libexecdir', session_libexecdir)
 

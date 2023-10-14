@@ -1,4 +1,4 @@
-/* gcc -o gnome-session-accelerated `pkg-config --cflags --libs xcomposite gl` -Wall gnome-session-is-accelerated.c */
+/* gcc -o budgie-accelerated `pkg-config --cflags --libs xcomposite gl` -Wall budgie-is-accelerated.c */
 
 /*
  * Copyright (C) 2010      Novell, Inc.
@@ -50,7 +50,7 @@
  *
  *  * Buggy GL. This isn't possible to detect. Except for the case where
  *    all GL programs crash. For that reason, we probably don't want
- *    gnome-session to directly try and do any GL detection; better to
+ *    budgie to directly try and do any GL detection; better to
  *    use a helper binary.
  *
  *  * Horribly slow hardware GL. We could theoretically develop some sort
@@ -100,7 +100,7 @@ static gboolean has_llvmpipe = FALSE;
 static inline void
 _print_error (const char *str)
 {
-        fprintf (stderr, "gnome-session-is-accelerated: %s\n", str);
+        fprintf (stderr, "budgie-is-accelerated: %s\n", str);
 }
 
 #define CMDLINE_UNSET -1
@@ -129,7 +129,7 @@ _parse_kcmdline (void)
         g_debug ("Found command-line match '%s'", word);
         arg = word + strlen ("gnome.fallback=");
         if (*arg != '0' && *arg != '1')
-                fprintf (stderr, "gnome-session-is-accelerated: Invalid value '%s' for gnome.fallback passed in kernel command line.\n", arg);
+                fprintf (stderr, "budgie-is-accelerated: Invalid value '%s' for gnome.fallback passed in kernel command line.\n", arg);
         else
                 ret = atoi (arg);
         g_free (word);
@@ -157,7 +157,7 @@ _parse_kcmdline (void)
                 return ret;
 
         if (*value != '0' && *value != '1')
-                fprintf (stderr, "gnome-session-is-accelerated: Invalid value '%s' for gnome.fallback passed in kernel environment.\n", value);
+                fprintf (stderr, "budgie-is-accelerated: Invalid value '%s' for gnome.fallback passed in kernel environment.\n", value);
         else
                 ret = atoi (value);
 

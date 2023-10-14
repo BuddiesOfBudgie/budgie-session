@@ -1,6 +1,6 @@
 project(
-  'gnome-session', 'c',
-  version: '44.0',
+  'budgie-session', 'c',
+  version: '0.9',
   license: 'GPL2+',
   default_options: 'buildtype=debugoptimized',
   meson_version: '>= 0.53.0'

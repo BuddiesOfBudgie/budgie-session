@@ -47,7 +47,7 @@ static void select_session (const char *name);
 static char *
 get_session_path (const char *name)
 {
-        return g_build_filename (g_get_user_config_dir (), "gnome-session", name, NULL);
+        return g_build_filename (g_get_user_config_dir (), "budgie-session", name, NULL);
 }
 
 static char *
@@ -170,7 +170,7 @@ populate_session_list (GtkWidget *session_list)
                 g_free (default_session);
         }
 
-        path = g_build_filename (g_get_user_config_dir (), "gnome-session", NULL);
+        path = g_build_filename (g_get_user_config_dir (), "budgie-session", NULL);
         error = NULL;
         dir = g_dir_open (path, 0, &error);
         if (dir == NULL) {
@@ -396,7 +396,7 @@ make_session_current (const char *name)
         char *path1;
         gboolean ret = TRUE;
 
-        path1 = g_build_filename (g_get_user_config_dir (), "gnome-session", "saved-session", NULL);
+        path1 = g_build_filename (g_get_user_config_dir (), "budgie-session", "saved-session", NULL);
 
         unlink (path1);
         if (symlink (name, path1) < 0) {
@@ -419,7 +419,7 @@ create_and_select_session (const char *name)
                 return FALSE;
         }
 
-        path = g_build_filename (g_get_user_config_dir (), "gnome-session", name, NULL);
+        path = g_build_filename (g_get_user_config_dir (), "budgie-session", name, NULL);
         if (!g_file_test (path, G_FILE_TEST_IS_DIR)) {
                 if (mkdir (path, 0755) < 0) {
                         g_warning ("Failed to create directory %s", path);
@@ -581,7 +581,7 @@ auto_save_next_session_if_needed (void)
         char *marker;
 
         marker = g_build_filename (g_get_user_config_dir (),
-                                   "gnome-session", "saved-session",
+                                   "budgie-session", "saved-session",
                                    ".new-session", NULL);
 
         if (g_file_test (marker, G_FILE_TEST_EXISTS)) {

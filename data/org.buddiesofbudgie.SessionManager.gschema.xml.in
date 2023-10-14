@@ -1,5 +1,5 @@
-<schemalist gettext-domain="gnome-session-3.0">
-  <schema id="org.gnome.SessionManager" path="/org/gnome/gnome-session/">
+<schemalist gettext-domain="budgie-session-3.0">
+  <schema id="org.buddiesofbudgie.SessionManager" path="/org/buddiesofbudgie/budgie-session/">
     <key name="auto-save-session" type="b">
       <default>false</default>
       <summary>Save sessions</summary>
