@@ -271,7 +271,7 @@ on_screensaver_name_owner_changed (GDBusProxy  *screensaver_proxy,
                 presence->priv->screensaver_active = FALSE;
                 set_session_idle (presence, FALSE);
         } else {
-                g_debug ("Detected that screensaver has aquired the bus");
+                g_debug ("Detected that screensaver has acquired the bus");
 
                 g_dbus_proxy_call (presence->priv->screensaver_proxy,
                                    "GetActive",

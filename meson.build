@@ -3,7 +3,7 @@ project(
   version: '0.9',
   license: 'GPL2+',
   default_options: 'buildtype=debugoptimized',
-  meson_version: '>= 0.53.0'
+  meson_version: '>= 0.58.0'
 )
 
 prefix = get_option('prefix')
@@ -204,7 +204,7 @@ meson.add_install_script(
   session_datadir
 )
 
-output = '\n                gnome-session ' + session_version + '\n'
+output = '\n                budgie-session ' + session_version + '\n'
 output += '                ====================\n\n'
 output += '        prefix:                   ' + session_prefix + '\n'
 output += '        exec_prefix:              ' + session_libexecdir + '\n'
