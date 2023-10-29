@@ -60,7 +60,7 @@ programs += [['gnome-session-check-accelerated', deps, cflags, session_libexecdi
 
 foreach program: programs
   executable(
-    program[0],
+    program[0].replace('gnome', 'budgie'),
     program[0] + '.c',
     include_directories: top_inc,
     dependencies: program[1],

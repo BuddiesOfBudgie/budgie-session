@@ -47,7 +47,7 @@ gsm_fail_whale_dialog_we_failed  (gboolean            debug_mode,
         }
 
         i = 0;
-        argv[i++] = LIBEXECDIR "/gnome-session-failed";
+        argv[i++] = LIBEXECDIR "/budgie-session-failed";
         if (debug_mode)
                 argv[i++] = "--debug";
         if (allow_logout)

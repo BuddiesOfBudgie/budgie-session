@@ -29,7 +29,7 @@
 
 #include "gsm-session-save.h"
 
-#define GSM_MANAGER_SCHEMA        "org.gnome.SessionManager"
+#define GSM_MANAGER_SCHEMA        "org.buddiesofbudgie.SessionManager"
 #define KEY_AUTOSAVE_ONE_SHOT     "auto-save-session-one-shot"
 
 

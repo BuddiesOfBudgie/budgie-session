@@ -1,0 +1,35 @@
+.\"
+.\" budgie-session-quit manual page.
+.\" (C) 2000 Miguel de Icaza (miguel@helixcode.com)
+.\" (C) 2009-2010 Vincent Untz (vuntz@budgie.org)
+.\" (C) 2023 buddiesofbudgie
+.\"
+.TH budgie-SESSION-QUIT 1 "budgie"
+.SH NAME
+budgie-session-quit \- End the current budgie session
+.SH SYNOPSIS
+.B budgie-session-quit [\-\-logout|\-\-power-off|\-\-reboot] [\-\-force] [\-\-no-prompt]
+.SH DESCRIPTION
+The \fIbudgie-session-quit\fP program can be used to end a budgie session.
+.SH OPTIONS
+The following options are supported:
+.TP
+.I "--logout"
+Prompt the user to confirm logout. This is the default behavior.
+.TP
+.I "--power-off"
+Prompt the user to confirm system power off.
+.TP
+.I "--reboot"
+Prompt the user to confirm system reboot.
+.TP
+.I "--force"
+Ignore any inhibitors.
+.TP
+.I "--no-prompt"
+End the session without user interaction. This only works with \fI--logout\fP.
+.SH BUGS
+If you find bugs in the \fIbudgie-session-quit\fP program, please report
+these on https://github.com/buddiesofbudgie/budgie-session.
+.SH SEE ALSO
+.BR budgie-session(1)

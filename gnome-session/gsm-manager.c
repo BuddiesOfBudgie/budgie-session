@@ -95,7 +95,7 @@
 #define KEY_IDLE_DELAY            "idle-delay"
 #define KEY_SESSION_NAME          "session-name"
 
-#define GSM_MANAGER_SCHEMA        "org.gnome.SessionManager"
+#define GSM_MANAGER_SCHEMA        "org.buddiesofbudgie.SessionManager"
 #define KEY_AUTOSAVE              "auto-save-session"
 #define KEY_AUTOSAVE_ONE_SHOT     "auto-save-session-one-shot"
 #define KEY_LOGOUT_PROMPT         "logout-prompt"

@@ -1,0 +1,129 @@
+.\"
+.\" budgie-session manual page.
+.\" (C) 2000 Miguel de Icaza (miguel@helixcode.com)
+.\" (C) 2009-2010 Vincent Untz (vuntz@gnome.org)
+.\" (C) 2019 Benjamin Berg (bberg@redhat.com)
+.\" (C) 2020 Sebastian Geiger (sbastig@gmx.net)
+.\" (C) 2023 BuddiesOfBudgie
+.\"
+.TH budgie-session 1 "Oct 2023" "BUDGIE"
+.SH NAME
+budgie-session \- Start the budgie desktop environment
+.SH SYNOPSIS
+.B budgie-session [\-a|\-\-autostart=DIR] [\-\-session=SESSION] [\-\-failsafe|\-f] [\-\-debug] [\-\-whale]
+.SH DESCRIPTION
+The \fIbudgie-session\fP program starts up the budgie desktop
+environment. This command is typically executed by your login manager
+(either gdm, xdm, or from your X startup scripts). It will load
+either your saved session, or the default budgie
+installation on your system. Note that \fIbudgie-session\fP is a wrapper
+script for \fIbudgie-session-binary\fP.
+.PP
+\fB$XDG_CONFIG_HOME/budgie-session/sessions\fP,
+\fB$XDG_CONFIG_DIRS/budgie-session/sessions\fP and
+\fB$XDG_DATA_DIRS/budgie-session/sessions\fP.
+.PP
+When saving a session, \fIbudgie-session\fP saves the currently running
+applications in the \fB$XDG_CONFIG_HOME/budgie-session/saved-session\fP
+directory. Saving sessions is only supported with the legacy non-systemd
+startup method.
+.PP
+\fIbudgie-session\fP is an X11R6 session manager. It can manage budgie
+applications as well as any X11R6 SM compliant application.
+.SH OPTIONS
+The following options are supported:
+.TP
+.I "--autostart=DIR"
+The directory \fBDIR\fP to be searched for autostart .desktop files. This option can be used multiple times.
+When this option is present, then default autostart directories will not be searched.
+.TP
+.I "--session=SESSION"
+Use the applications defined in \fBSESSION.session\fP. If not specified,
+\fBbudgie.session\fP will be used.
+.TP
+.I "--builtin"
+Use the legacy non-systemd method of managing the user session. 
+.TP
+.I "--failsafe"
+Run in fail-safe mode. User-specified applications will not be started.
+.TP
+.I "--debug"
+Enable debugging code.
+.TP
+.I "--whale"
+Show the fail whale in a dialog for debugging it.
+.SH SESSION DEFINITION
+Sessions are defined in \fB.session\fP files, that are using a .desktop-like
+format, with the following keys in the \fBbudgie Session\fP group:
+.TP
+.I Name
+Name of the session. This can be localized.
+.TP
+.I RequiredComponents
+List of component identifiers (desktop files) that are required by the session. The required components will always run in the session.
+.PP
+Here is an example of a session definition:
+.PP
+.in +4n
+.nf
+[budgie Session]
+Name=budgie
+RequiredComponents=budgie-desktop;gnome-settings-daemon;
+.in
+.fi
+.PP
+The \fB.session\fP files are looked for in
+\fB$XDG_CONFIG_HOME/budgie-session/sessions\fP,
+\fB$XDG_CONFIG_DIRS/budgie-session/sessions\fP and
+\fB$XDG_DATA_DIRS/budgie-session/sessions\fP.
+.PP
+It is best to use
+\fI--builtin\fP if session customizations are required. This is due to the way
+that budgie currently defines the components that will be started on each session
+type.
+.SH ENVIRONMENT
+\fIbudgie-session\fP sets several environment variables for the use of
+its child processes:
+.PP
+.B SESSION_MANAGER
+.IP
+This variable is used by session-manager aware clients to contact
+budgie-session.
+.PP
+.B DISPLAY
+.IP
+This variable is set to the X display being used by
+\fIbudgie-session\fP. Note that if the \fI--display\fP option is used
+this might be different from the setting of the environment variable
+when budgie-session is invoked.
+.PP
+Behavior of \fIbudgie-session\fP ifself can be modified via the following environment variable:
+.PP
+.B GNOME_SESSION_AUTOSTART_DIR
+.IP
+This variable specifies a list of directories to the searched for autostart
+files. This variable overrides all directories specified via the
+\fI--autostart\fP option, as well as all default autostart directories.
+.SH FILES
+.PP
+.B $XDG_CONFIG_HOME/autostart
+.B $XDG_CONFIG_DIRS/autostart
+.B /usr/share/gnome/autostart
+.IP
+Applications defined via .desktop files in those directories will be started on login.
+.PP
+.B $XDG_CONFIG_HOME/budgie-session/sessions
+.B $XDG_CONFIG_DIRS/budgie-session/sessions
+.B $XDG_DATA_DIRS/budgie-session/sessions
+.IP
+These directories contain the \fB.session\fP files that can be used
+with the \fI--session\fP option.
+.PP
+.B $XDG_CONFIG_HOME/budgie-session/saved-session
+.IP
+This directory contains the list of applications of the saved session.
+.SH BUGS
+If you find bugs in the \fIbudgie-session\fP program, please report
+these on https://github.com/buddiesofbudgie/budgie-session/issues.
+.SH SEE ALSO
+.BR budgie-session-quit(1)

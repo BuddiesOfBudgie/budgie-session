@@ -236,7 +236,7 @@ static gboolean
 check_gl (GError **error)
 {
         int status;
-        char *argv[] = { LIBEXECDIR "/gnome-session-check-accelerated", NULL };
+        char *argv[] = { LIBEXECDIR "/budgie-session-check-accelerated", NULL };
 
         if (getenv ("DISPLAY") == NULL) {
                 /* Not connected to X11, someone else will take care of checking GL */
