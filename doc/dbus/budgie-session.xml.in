@@ -9,15 +9,14 @@
 
 <book id="index">
   <bookinfo>
-    <title>GNOME Session @VERSION@ Documentation</title>
+    <title>Budgie Session @VERSION@ Documentation</title>
     <releaseinfo>Version @VERSION@</releaseinfo>
     <authorgroup>
       <author>
-        <firstname>William Jon</firstname>
-        <surname>McCann</surname>
+        <surname>Budgie Developers</surname>
         <affiliation>
           <address>
-            <email>jmccann@redhat.com</email>
+            <email>admin@buddiesofbudgie.org</email>
           </address>
         </affiliation>
       </author>
