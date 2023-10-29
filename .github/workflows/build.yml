@@ -1,0 +1,17 @@
+name: Build on Ubuntu 22.04
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  ubuntu:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v1
+      - run: sudo apt update
+      - run: sudo apt install libdbus-1-dev libgl-dev libgles-dev libglib2.0-dev libgnome-desktop-3-dev libgtk-3-dev libice-dev libjson-glib-dev libsm-dev libsystemd-dev libx11-dev libxau-dev libxcomposite-dev libxext-dev libxrender-dev libxt-dev libxtst-dev meson systemd xmlto xsltproc xtrans-dev
+      - run: meson build
+      - run: meson compile -C build
