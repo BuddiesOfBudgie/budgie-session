@@ -1,4 +1,12 @@
 ============
+Version 0.9 (budgie-session)
+============
+
+	Budgie Session forked from gnome-session at v44.0
+	Both budgie-session and gnome-session are now
+	co-installable.
+
+============
 Version 44.0
 ============
 
