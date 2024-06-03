@@ -291,9 +291,10 @@ on_required_app_failure (GsmManager  *manager,
                          NULL);
 #endif
 
-        gsm_fail_whale_dialog_we_failed (FALSE,
+        /*gsm_fail_whale_dialog_we_failed (FALSE,
                                          allow_logout,
                                          extensions);
+                                         */
 }
 
 static void

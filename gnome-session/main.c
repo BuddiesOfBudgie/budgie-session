@@ -87,7 +87,7 @@ on_name_lost (GDBusConnection *connection,
                         gsm_quit ();
                 else {
                         g_warning ("Lost name on bus: %s", name);
-                        gsm_fail_whale_dialog_we_failed (TRUE, TRUE, NULL);
+                        //gsm_fail_whale_dialog_we_failed (TRUE, TRUE, NULL);
                 }
         } else {
                 g_debug ("Calling name lost callback function");
@@ -166,7 +166,7 @@ create_manager (void)
         }
 
         if (!gsm_session_fill (manager, session_name)) {
-                gsm_fail_whale_dialog_we_failed (FALSE, TRUE, NULL);
+                //gsm_fail_whale_dialog_we_failed (FALSE, TRUE, NULL);
         }
 
         _gsm_manager_set_renderer (manager, gl_renderer);
@@ -204,7 +204,7 @@ require_dbus_session (int      argc,
                 return TRUE;
 
         /* Just a sanity check to prevent infinite recursion if
-         * dbus-launch fails to set DBUS_SESSION_BUS_ADDRESS 
+         * dbus-launch fails to set DBUS_SESSION_BUS_ADDRESS
          */
         g_return_val_if_fail (!g_str_has_prefix (argv[0], "dbus-launch"),
                               TRUE);
@@ -218,9 +218,9 @@ require_dbus_session (int      argc,
                 new_argv[i + 2] = argv[i];
         }
         new_argv[i + 2] = NULL;
-        
+
         if (!execvp ("dbus-launch", new_argv)) {
-                g_set_error (error, 
+                g_set_error (error,
                              G_SPAWN_ERROR,
                              G_SPAWN_ERROR_FAILED,
                              "No session bus and could not exec dbus-launch: %s",
@@ -509,13 +509,13 @@ main (int argc, char **argv)
         }
 
         if (gl_failed) {
-                gsm_fail_whale_dialog_we_failed (FALSE, TRUE, NULL);
+                //gsm_fail_whale_dialog_we_failed (FALSE, TRUE, NULL);
                 gsm_main ();
                 exit (1);
         }
 
         if (please_fail) {
-                gsm_fail_whale_dialog_we_failed (TRUE, TRUE, NULL);
+                //gsm_fail_whale_dialog_we_failed (TRUE, TRUE, NULL);
                 gsm_main ();
                 exit (1);
         }
