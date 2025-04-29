@@ -55,6 +55,7 @@ void    gsm_autostart_app_add_provides       (GsmAutostartApp *aapp,
 #define GSM_AUTOSTART_APP_DBUS_PATH_KEY   "X-GNOME-DBus-Path"
 #define GSM_AUTOSTART_APP_DBUS_ARGS_KEY   "X-GNOME-DBus-Start-Arguments"
 #define GSM_AUTOSTART_APP_DISCARD_KEY     "X-GNOME-Autostart-discard-exec"
+#define GSM_AUTOSTART_APP_DELAY_KEY       "X-GNOME-Autostart-Delay"
 
 G_END_DECLS
 

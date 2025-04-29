@@ -49,6 +49,7 @@ struct _GsmAppClass
                                                        GError    **error);
         gboolean    (*impl_stop)                      (GsmApp     *app,
                                                        GError    **error);
+        int         (*impl_peek_autostart_delay)      (GsmApp     *app);
         gboolean    (*impl_provides)                  (GsmApp     *app,
                                                        const char *service);
         char **     (*impl_get_provides)              (GsmApp     *app);
@@ -109,6 +110,7 @@ gboolean         gsm_app_has_autostart_condition        (GsmApp     *app,
 gboolean         gsm_app_get_registered                 (GsmApp     *app);
 void             gsm_app_set_registered                 (GsmApp     *app,
                                                          gboolean  registered);
+int              gsm_app_peek_autostart_delay           (GsmApp     *app);
 
 gboolean         gsm_app_save_to_keyfile                (GsmApp    *app,
                                                          GKeyFile  *keyfile,
