@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
 #include <errno.h>
@@ -73,6 +74,7 @@ typedef struct
         char                 *condition_string;
         gboolean              condition;
         gboolean              autorestart;
+        int                   autostart_delay;
 
         GFileMonitor         *condition_monitor;
         guint                 condition_notify_id;
@@ -111,6 +113,7 @@ gsm_autostart_app_init (GsmAutostartApp *app)
         priv->pid = -1;
         priv->condition_monitor = NULL;
         priv->condition = FALSE;
+        priv->autostart_delay = -1;
 }
 
 static gboolean
@@ -616,6 +619,21 @@ load_desktop_file (GsmAutostartApp  *app)
         priv->condition_string = g_desktop_app_info_get_string (priv->app_info,
                                                                    "AutostartCondition");
         setup_condition_monitor (app);
+
+        const char *delay;
+        delay = g_desktop_app_info_get_string (priv->app_info,
+                                               GSM_AUTOSTART_APP_DELAY_KEY);
+
+        if (delay != NULL) {
+                priv->autostart_delay = strtol (delay, NULL, 10);
+
+                if (priv->autostart_delay < 0) {
+                        g_warning ("Invalid autostart delay of %d for %s",
+                                   priv->autostart_delay,
+                                   gsm_app_peek_id (GSM_APP (app)));
+                        priv->autostart_delay = -1;
+                }
+        }
 
         g_object_set (app,
                       "phase", phase,
@@ -1352,6 +1370,14 @@ gsm_autostart_app_get_app_id (GsmApp *app)
         return g_app_info_get_id (G_APP_INFO (priv->app_info));
 }
 
+static int
+gsm_autostart_app_peek_autostart_delay (GsmApp *app)
+{
+        GsmAutostartAppPrivate *priv = gsm_autostart_app_get_instance_private (GSM_AUTOSTART_APP (app));
+
+        return priv->autostart_delay;
+}
+
 static gboolean
 gsm_autostart_app_initable_init (GInitable *initable,
                                  GCancellable *cancellable,
@@ -1472,6 +1498,7 @@ gsm_autostart_app_class_init (GsmAutostartAppClass *klass)
         app_class->impl_has_autostart_condition = gsm_autostart_app_has_autostart_condition;
         app_class->impl_get_app_id = gsm_autostart_app_get_app_id;
         app_class->impl_get_autorestart = gsm_autostart_app_get_autorestart;
+        app_class->impl_peek_autostart_delay = gsm_autostart_app_peek_autostart_delay;
         app_class->impl_save_to_keyfile = gsm_autostart_app_save_to_keyfile;
 
         props[PROP_DESKTOP_FILENAME] =

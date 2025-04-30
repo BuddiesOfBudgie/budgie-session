@@ -327,6 +327,7 @@ gsm_app_class_init (GsmAppClass *klass)
         klass->impl_provides = NULL;
         klass->impl_get_provides = NULL;
         klass->impl_is_running = NULL;
+        klass->impl_peek_autostart_delay = NULL;
 
         g_object_class_install_property (object_class,
                                          PROP_PHASE,
@@ -536,7 +537,22 @@ gboolean
 gsm_app_stop (GsmApp  *app,
               GError **error)
 {
-        return GSM_APP_GET_CLASS (app)->impl_stop (app, error);
+        if (gsm_app_is_running (app))
+                return GSM_APP_GET_CLASS (app)->impl_stop (app, error);
+
+        return TRUE;
+}
+
+int
+gsm_app_peek_autostart_delay (GsmApp *app)
+{
+        g_return_val_if_fail (GSM_IS_APP (app), FALSE);
+
+        if (GSM_APP_GET_CLASS (app)->impl_peek_autostart_delay) {
+                return GSM_APP_GET_CLASS (app)->impl_peek_autostart_delay (app);
+        } else {
+                return 0;
+        }
 }
 
 void
