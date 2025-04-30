@@ -49,7 +49,7 @@ struct _GsmAppClass
                                                        GError    **error);
         gboolean    (*impl_stop)                      (GsmApp     *app,
                                                        GError    **error);
-        int         (*impl_peek_autostart_delay)      (GsmApp     *app);
+        gint        (*impl_peek_autostart_delay)      (GsmApp     *app);
         gboolean    (*impl_provides)                  (GsmApp     *app,
                                                        const char *service);
         char **     (*impl_get_provides)              (GsmApp     *app);

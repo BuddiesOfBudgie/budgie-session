@@ -757,6 +757,9 @@ on_phase_timeout (GsmManager *manager)
         return FALSE;
 }
 
+/*
+ Note - app requires to be passed by reference to be used; its cleaned up before exit
+*/
 static gboolean
 _autostart_delay_timeout (GsmApp *app)
 {
@@ -776,6 +779,7 @@ _autostart_delay_timeout (GsmApp *app)
                 }
         }
 
+        /* we unref here since we ref this on the initial call*/
         g_object_unref (app);
 
         return FALSE;
