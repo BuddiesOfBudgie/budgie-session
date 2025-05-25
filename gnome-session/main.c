@@ -428,8 +428,8 @@ main (int argc, char **argv)
          * set a fallback value if we don't find it set.
          */
         if (g_getenv ("XDG_CURRENT_DESKTOP") == NULL) {
-            g_setenv("XDG_CURRENT_DESKTOP", "GNOME", TRUE);
-            gsm_util_setenv ("XDG_CURRENT_DESKTOP", "GNOME");
+            g_setenv("XDG_CURRENT_DESKTOP", "BUDGIE", TRUE);
+            gsm_util_setenv ("XDG_CURRENT_DESKTOP", "BUDGIE");
         }
 
         /* Make sure we initialize gio in a way that does not autostart any daemon */
@@ -614,6 +614,13 @@ main (int argc, char **argv)
         /* We want to use the GNOME menus which has the designed categories.
          */
         gsm_util_setenv ("XDG_MENU_PREFIX", "gnome-");
+
+        /*
+         * If not set, define the platform compatibility for QT apps
+        */
+        if (g_getenv ("QT_QPA_PLATFORMTHEME") == NULL) {
+            g_setenv("QT_QPA_PLATFORMTHEME", "gtk3", TRUE);
+        }
 
         /* Talk to logind before acquiring a name, since it does synchronous
          * calls at initialization time that invoke a main loop and if we
