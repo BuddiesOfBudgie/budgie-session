@@ -617,9 +617,31 @@ main (int argc, char **argv)
 
         /*
          * If not set, define the platform compatibility for QT apps
-        */
+         */
         if (g_getenv ("QT_QPA_PLATFORMTHEME") == NULL) {
             g_setenv("QT_QPA_PLATFORMTHEME", "gtk3", TRUE);
+        }
+
+        /*
+         * If not set, define QT Quick Controls compatibility
+         * distros need to ship the equivalent qqc2-desktop-style
+         * package to make use of this
+         */
+        if (g_getenv ("QT_QUICK_CONTROLS_STYLE") == NULL) {
+            g_setenv("QT_QUICK_CONTROLS_STYLE", "org.kde.desktop", TRUE);
+        }
+
+        /*
+         * If kvantum has been installed we assume that the override
+         * environment variable should be set to make use of it - assuming it
+         * hasn't already been defined
+         */
+        gchar *kvantum_path = g_find_program_in_path("kvantummanager");
+        if (kvantum_path) {
+            if (g_getenv ("QT_STYLE_OVERRIDE") == NULL) {
+                g_setenv("QT_STYLE_OVERRIDE", "kvantum", TRUE);
+            }
+            g_free (kvantum_path);
         }
 
         /* Talk to logind before acquiring a name, since it does synchronous
