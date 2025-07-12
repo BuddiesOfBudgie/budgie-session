@@ -1,41 +1,55 @@
-desktop_plain = 'gnome'
-
 desktops = [
+  'budgie-labwc'
 ]
 
-shell_component = {
-  desktop_plain: 'org.gnome.Shell',
-}
+budgie_gsd_session_components = [
+    'org.buddiesofbudgie.SettingsDaemon.A11ySettings',
+    'org.buddiesofbudgie.SettingsDaemon.Datetime',
+    'org.buddiesofbudgie.SettingsDaemon.Housekeeping',
+    'org.buddiesofbudgie.SettingsDaemon.Power',
+    'org.buddiesofbudgie.SettingsDaemon.PrintNotifications',
+    'org.buddiesofbudgie.SettingsDaemon.Rfkill',
+    'org.buddiesofbudgie.SettingsDaemon.Sharing',
+    'org.buddiesofbudgie.SettingsDaemon.Smartcard',
+    'org.buddiesofbudgie.SettingsDaemon.Sound',
+    'org.buddiesofbudgie.SettingsDaemon.Wacom',
+]
 
-required_components = {
-  desktop_plain: [
-    'org.gnome.SettingsDaemon.A11ySettings',
-    'org.gnome.SettingsDaemon.Color',
-    'org.gnome.SettingsDaemon.Datetime',
-    'org.gnome.SettingsDaemon.Housekeeping',
-    'org.gnome.SettingsDaemon.Keyboard',
-    'org.gnome.SettingsDaemon.MediaKeys',
-    'org.gnome.SettingsDaemon.Power',
-    'org.gnome.SettingsDaemon.PrintNotifications',
-    'org.gnome.SettingsDaemon.Rfkill',
-    'org.gnome.SettingsDaemon.ScreensaverProxy',
-    'org.gnome.SettingsDaemon.Sharing',
-    'org.gnome.SettingsDaemon.Smartcard',
-    'org.gnome.SettingsDaemon.Sound',
-    'org.gnome.SettingsDaemon.UsbProtection',
-    'org.gnome.SettingsDaemon.Wacom',
-    'org.gnome.SettingsDaemon.XSettings',
-  ],
-}
+# Always in Budgie
+budgie_components = [
+    'org.buddiesofbudgie.BudgieDaemon',
+    'org.buddiesofbudgie.BudgiePanel',
+    'org.buddiesofbudgie.BudgiePowerDialog',
+    'org.buddiesofbudgie.BudgieScreenshotDialog'
+]
 
-if enable_session_selector
-  desktops += 'gnome-custom-session'
+if with_polkit == true
+    budgie_components += 'org.buddiesofbudgie.BudgiePolkit'
 endif
 
-foreach name: desktops
-  desktop_conf = configuration_data()
-  desktop_conf.set('bindir', session_bindir)
+#dep_gsd = dependency('gnome-settings-daemon', version: gnome_minimum_version)
+session_components = budgie_components + budgie_gsd_session_components
 
+if enable_session_selector
+  desktops += 'budgie-custom-session'
+endif
+
+desktop_conf = configuration_data()
+desktop_conf.set('bindir', session_bindir)
+desktop_conf.set('libexecdir', join_paths(session_libexecdir, 'budgie-desktop'))
+desktop_conf.set('SESSION_COMPONENTS', ';'.join(session_components))
+desktop_conf.set('PACKAGE_VERSION', session_version)
+
+# Set folder location for gnome-settings-daemon
+# Unfortunately this info is not provided by its pkgconfig file
+gsd_libexecdir = get_option('gsd-libexecdir')
+if gsd_libexecdir == ''
+    gsd_libexecdir = join_paths(get_option('prefix'), get_option('libexecdir'))
+endif
+desktop_conf.set('gsd_libexecdir', gsd_libexecdir)
+
+
+foreach name: desktops
   desktop = name + '.desktop'
 
   desktop_in = configure_file(
@@ -44,22 +58,8 @@ foreach name: desktops
     configuration: desktop_conf
   )
 
-  if name.endswith('-xorg')
-    install_dir = session_datadir / 'xsessions'
-  elif name.endswith('-wayland')
-    install_dir = session_datadir / 'wayland-sessions'
-  else
-    # FIXME: The same target can not be copied into two directories.
-    #        There is a workaround in meson_post_install.py until proper
-    #        solution arises:
-    #        https://github.com/mesonbuild/meson/issues/2416
-    install_dir = session_datadir / 'xsessions'
-    #install_dir = [
-    #  join_paths(session_datadir, 'xsessions'),
-    #  join_paths(session_datadir, 'wayland-sessions')
-    #]
-  endif
-
+  install_dir = session_datadir / 'wayland-sessions'
+  
   desktop_target = i18n.merge_file(
     type: 'desktop',
     input: desktop_in,
@@ -71,15 +71,11 @@ foreach name: desktops
 endforeach
 
 sessions = [
+  'budgie-labwc'
 ]
 
 foreach session: sessions
   session_file = session + '.session'
-  desktop_conf = configuration_data()
-  desktop_conf.set('libexecdir', session_libexecdir)
-  desktop_conf.set('required_components', ';'.join(
-    [shell_component.get(session, '')] + required_components.get(session, [])))
-
   desktop = session_file + '.desktop'
 
   desktop_in = configure_file(
@@ -110,71 +106,6 @@ configure_file(
   configuration: schema_conf
 )
 
-if 1==2
-  unit_conf = configuration_data()
-  unit_conf.set('libexecdir', session_libexecdir)
-
-  systemd_service = ['gnome-session-manager@.service',
-                     'gnome-session-signal-init.service',
-                     'gnome-session-restart-dbus.service',
-                     'gnome-session-monitor.service',
-                     'gnome-session-failed.service']
-
-  foreach service: systemd_service
-    configure_file(
-      input: service + '.in',
-      output: service,
-      install: true,
-      install_dir: systemd_userunitdir,
-      configuration: unit_conf
-    )
-  endforeach
-
-  systemd_target = files('gnome-session-wayland@.target',
-                         'gnome-session-wayland.target',
-                         'gnome-session-x11@.target',
-                         'gnome-session-x11.target',
-                         'gnome-session-x11-services.target',
-                         'gnome-session-x11-services-ready.target',
-                         'gnome-session@.target',
-                         'gnome-session.target',
-                         'gnome-session-pre.target',
-                         'gnome-session-manager.target',
-                         'gnome-session-initialized.target',
-                         'gnome-session-shutdown.target',
-                         'gnome-session-failed.target',
-                         )
-
-  install_data(
-    systemd_target,
-    install_dir: systemd_userunitdir
-  )
-
-  install_data(
-    'gnome-launched-override.scope.conf',
-    rename: 'override.conf',
-    install_dir : join_paths(systemd_userunitdir, 'gnome-launched-.scope.d')
-  )
-
-  foreach session, req_components: required_components
-    wanted_targets = []
-    foreach component: req_components
-      wanted_targets += 'Wants=@0@.target'.format(component)
-    endforeach
-
-    configure_file(
-      input: session + '.session.conf.in',
-      output: session + '.session.conf',
-      configuration: {
-        'requires_component': shell_component[session],
-        'wants_required_components': '\n'.join(wanted_targets),
-      },
-      install_dir: systemd_userunitdir / 'gnome-session@@0@.target.d'.format(
-        session),
-    )
-  endforeach
-endif
-
 data = files('hardware-compatibility')
 
 if enable_session_selector
@@ -184,4 +115,54 @@ endif
 install_data(
   data,
   install_dir: session_pkgdatadir
+)
+
+# install various desktop files to ensure they autostart
+autostart_components = budgie_gsd_session_components + [
+    'org.buddiesofbudgie.SettingsDaemon.DiskUtilityNotify',
+    'org.buddiesofbudgie.SettingsDaemon.UsbProtection',
+    'org.buddiesofbudgie.SettingsDaemon.Wwan'
+]
+
+foreach component: autostart_components
+    configure_file(
+        input: join_paths('settingsdaemon', component + '.desktop.in'),
+        output: '@BASENAME@',
+        configuration: desktop_conf,
+        install_dir: xdg_appdir,
+    )
+endforeach
+
+# complete the translations for various desktop files and ensure they autostart
+
+autostart_components = [
+  'budgie-desktop-powerdialog',
+  'budgie-desktop-screenshotdialog',
+  'budgie-desktop-nm-applet'
+]
+
+foreach component: autostart_components
+    desktop_in = configure_file(
+        input: join_paths(component + '.desktop.in.in'),
+        output: join_paths(component + '.desktop.in'),
+        configuration: desktop_conf,
+    )
+
+    # Now merge the translations of the .desktop.in to a .desktop
+    i18n.merge_file(
+      type: 'desktop',
+      input: desktop_in,
+      output: join_paths(component + '.desktop'),
+      po_dir: po_dir,
+      install: true,
+      install_dir: xdg_appdir,
+    )
+endforeach
+
+# Write the session /usr/bin/startbudgiedesktop script
+configure_file(
+    input: 'startbudgiedesktop.in',
+    output: 'startbudgiedesktop',
+    configuration: desktop_conf,
+    install_dir: join_paths(get_option('prefix'), get_option('bindir')),
 )

@@ -1,12 +1,12 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
-data/gnome-custom-session.desktop.in.in
-data/gnome.desktop.in.in
-data/gnome-dummy.session.desktop.in.in
-data/gnome.session.desktop.in.in
-data/gnome-wayland.desktop.in.in
-data/gnome-xorg.desktop.in.in
-data/org.gnome.SessionManager.gschema.xml.in
+#data/gnome-custom-session.desktop.in.in
+#data/gnome.desktop.in.in
+#data/gnome-dummy.session.desktop.in.in
+data/budgie-labwc.session.desktop.in.in
+data/budgie-labwc.desktop.in.in
+#data/gnome-xorg.desktop.in.in
+data/org.buddiesofbudgie.SessionManager.gschema.xml.in
 data/session-selector.ui
 gnome-session/gsm-fail-whale-dialog.c
 gnome-session/gsm-manager.c

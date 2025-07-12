@@ -25,8 +25,24 @@ session_pkgdatadir = join_paths(session_datadir, meson.project_name())
 
 session_debug = get_option('buildtype').contains('debug')
 
-cc = meson.get_compiler('c')
+# Determine if polkit is allowed.
+with_polkit = get_option('with-polkit')
 
+with_stateless = get_option('with-stateless')
+if with_stateless == true
+    warning('Only use stateless option with a supported OS like Solus')
+endif
+
+xdg_appdir = get_option('xdg-appdir')
+if xdg_appdir == ''
+    if with_stateless == true
+        xdg_appdir = join_paths(datadir, 'xdg', 'autostart')
+    else
+        xdg_appdir = join_paths(get_option('sysconfdir'), 'xdg', 'autostart')
+    endif
+endif
+
+cc = meson.get_compiler('c')
 config_h = configuration_data()
 
 # defines

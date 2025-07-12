@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BUDGIE_VERSION="@PACKAGE_VERSION@"
+
+if [ "$1" = "--version" ]; then
+    echo "budgie-desktop $BUDGIE_VERSION"
+    echo "Copyright © Budgie Desktop Developers"
+    exit 0
+fi
+
+if [ -z $XDG_CURRENT_DESKTOP ]; then
+  XDG_CURRENT_DESKTOP=Budgie
+  export XDG_CURRENT_DESKTOP
+fi
+
+exec budgie-session --builtin --session=org.buddiesofbudgie.BudgieDesktop $*

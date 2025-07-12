@@ -1,0 +1,4 @@
+[GNOME Session]
+Name=Budgie Desktop
+RequiredComponents=@SESSION_COMPONENTS@;
+DesktopName=Budgie Desktop
