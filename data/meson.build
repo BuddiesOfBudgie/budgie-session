@@ -1,5 +1,5 @@
 desktops = [
-  'budgie-labwc'
+  'budgie-desktop'
 ]
 
 budgie_gsd_session_components = [
@@ -37,6 +37,7 @@ endif
 desktop_conf = configuration_data()
 desktop_conf.set('bindir', session_bindir)
 desktop_conf.set('libexecdir', join_paths(session_libexecdir, 'budgie-desktop'))
+desktop_conf.set('datadir', session_datadir)
 desktop_conf.set('SESSION_COMPONENTS', ';'.join(session_components))
 desktop_conf.set('PACKAGE_VERSION', session_version)
 
@@ -138,7 +139,8 @@ endforeach
 autostart_components = [
   'budgie-desktop-powerdialog',
   'budgie-desktop-screenshotdialog',
-  'budgie-desktop-nm-applet'
+  'budgie-desktop-nm-applet',
+  'budgie-desktop-daemonv2'
 ]
 
 foreach component: autostart_components
@@ -163,6 +165,14 @@ endforeach
 configure_file(
     input: 'startbudgiedesktop.in',
     output: 'startbudgiedesktop',
+    configuration: desktop_conf,
+    install_dir: join_paths(get_option('prefix'), get_option('bindir')),
+)
+
+# Write the session /usr/bin/budgie-desktop script
+configure_file(
+    input: 'budgie-desktop.in',
+    output: 'budgie-desktop',
     configuration: desktop_conf,
     install_dir: join_paths(get_option('prefix'), get_option('bindir')),
 )

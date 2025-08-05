@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=budgie-daemon
+Comment=Budgie Daemon V2
+Exec=@libexecdir@/budgie-daemonv2
+TryExec=@libexecdir@/budgie-daemonv2
+Terminal=false
+Type=Application
+X-GNOME-Autostart-Phase=DisplayServer
+X-GNOME-Autostart-Notify=true
+X-GNOME-Autostart-enabled=true
+X-GNOME-HiddenUnderSystemd=true
+OnlyShowIn=Budgie
+NoDisplay=true
