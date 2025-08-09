@@ -91,7 +91,7 @@ foreach session: sessions
     output: session_file,
     po_dir: po_dir,
     install: true,
-    install_dir: join_paths(session_pkgdatadir, 'sessions')
+    install_dir: join_paths(session_datadir, 'gnome-session', 'sessions')
   )
 endforeach
 
