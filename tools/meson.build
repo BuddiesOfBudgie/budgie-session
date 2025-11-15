@@ -11,6 +11,10 @@ programs = [
   ['gnome-session-inhibit', session_deps, cflags, session_bindir]
 ]
 
+wayland_deps = [dependency('wayland-client')]
+programs += [['gnome-session-compositor-ready', wayland_deps, cflags, session_libexecdir]]
+
+
 if enable_systemd_session
   programs += [['gnome-session-ctl', session_bin_deps, cflags, session_libexecdir]]
 endif
