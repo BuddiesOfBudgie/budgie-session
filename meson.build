@@ -1,6 +1,6 @@
 project(
   'budgie-session', 'c',
-  version: '0.9.1',
+  version: '1.0.0-preview.1',
   license: 'GPL2+',
   default_options: 'buildtype=debugoptimized',
   meson_version: '>= 0.58.0'
