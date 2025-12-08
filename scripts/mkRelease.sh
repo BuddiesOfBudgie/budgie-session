@@ -11,5 +11,5 @@ VTAR="budgie-session-v${VERSION}.tar.xz"
 
 mv build/meson-dist/$TAR $VTAR
 
-gpg --armor --detach-sign --local-use 0x1E1FB0017C998A8AE2C498A6C2EAA8A26ADC59EE $VTAR
+gpg --armor --detach-sign $VTAR
 gpg --verify "${VTAR}.asc"
