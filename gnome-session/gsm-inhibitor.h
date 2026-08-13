@@ -59,7 +59,7 @@ typedef enum
 #define GSM_INHIBITOR_ERROR gsm_inhibitor_error_quark ()
 GQuark         gsm_inhibitor_error_quark          (void);
 
-GType          gsm_inhibitor_get_type             (void) G_GNUC_CONST;
+GType          gsm_inhibitor_get_type             (void);
 
 GsmInhibitor * gsm_inhibitor_new                  (const char    *app_id,
                                                    guint          toplevel_xid,

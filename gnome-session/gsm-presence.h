@@ -61,7 +61,7 @@ typedef enum
 #define GSM_PRESENCE_ERROR gsm_presence_error_quark ()
 GQuark         gsm_presence_error_quark          (void);
 
-GType          gsm_presence_get_type             (void) G_GNUC_CONST;
+GType          gsm_presence_get_type             (void);
 
 GsmPresence *  gsm_presence_new                  (void);
 

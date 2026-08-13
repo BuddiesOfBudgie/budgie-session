@@ -50,7 +50,7 @@ struct _GsmShellExtensionsClass
     GObjectClass parent_class;
 };
 
-GType gsm_shell_extensions_get_type                   (void) G_GNUC_CONST;
+GType gsm_shell_extensions_get_type                   (void);
 
 gboolean gsm_shell_extensions_disable_all             (GsmShellExtensions *self);
 
